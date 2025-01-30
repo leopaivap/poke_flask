@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificador Tipo Principal do Pokémon</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #121212;
+            color: #f0f0f0;
+        }
+        .container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin: 10px 0 5px;
+            color: #bbbbbb;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            outline: none;
+            background: #333;
+            color: #fff;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #00bcd4;
+        }
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #00bcd4;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: #0097a7;
+        }
+    </style>
+    <script>
+        function calcularTotal() {
+            let hp = parseInt(document.getElementsByName('hp')[0].value) || 0;
+            let atk = parseInt(document.getElementsByName('atk')[0].value) || 0;
+            let def = parseInt(document.getElementsByName('def')[0].value) || 0;
+            let sp_atk = parseInt(document.getElementsByName('sp_atk')[0].value) || 0;
+            let sp_def = parseInt(document.getElementsByName('sp_def')[0].value) || 0;
+            let speed = parseInt(document.getElementsByName('speed')[0].value) || 0;
+            let total = hp + atk + def + sp_atk + sp_def + speed;
+            document.getElementById('total').value = total;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Classificador Tipo de Pokémon</h1>
+        <form action="{{ url_for('predict') }}" method="post">
+            <label>HP:</label>
+            <input type="text" name="hp" placeholder="HP" required oninput="calcularTotal()" />
+            <label>Attack:</label>
+            <input type="text" name="atk" placeholder="Attack" required oninput="calcularTotal()" />
+            <label>Defense:</label>
+            <input type="text" name="def" placeholder="Defense" required oninput="calcularTotal()" />
+            <label>Sp. Attack:</label>
+            <input type="text" name="sp_atk" placeholder="Sp. Attack" required oninput="calcularTotal()" />
+            <label>Sp. Defense:</label>
+            <input type="text" name="sp_def" placeholder="Sp. Defense" required oninput="calcularTotal()" />
+            <label>Speed:</label>
+            <input type="text" name="speed" placeholder="Speed" required oninput="calcularTotal()" />
+            <label>Generation:</label>
+            <input type="text" name="gen" placeholder="Generation" required />
+            <label>Legendary:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="legend" value="1" required> Sim</label>
+                <label><input type="radio" name="legend" value="0" required> Não</label>
+            </div>
+            <input type="hidden" name="ttl" id="total" />
+            <button type="submit">Classificar Pokémon</button>
+        </form>
+        <p>{{ prediction_text }}</p>
+    </div>
+</body>
+</html>
