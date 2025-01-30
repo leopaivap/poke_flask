@@ -18,7 +18,7 @@ def predict():
     final_features = [np.array(features)]
     pred = model.predict(final_features)
     output = names[pred[0]]
-    return render_template("index.html", prediction_text="asdkmasdmkasd:  " + output)
+    return render_template("index.html", prediction_text="Tipo Provável:  " + output)
 
 @app.route("/api", methods=["POST"])
 def results():
